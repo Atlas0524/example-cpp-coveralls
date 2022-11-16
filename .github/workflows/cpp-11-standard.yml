@@ -33,13 +33,8 @@ jobs:
           chmod +x codecov
           ./codecov
           python request.py
-      - name: Upstream to Standards
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          COVERAGE_SOURCE_FILE: ${{ secrets.COVERAGE_SOURCE_FILE }}
-        if: ${{ github.event_name == 'push'}}
-        run: |
-          wget --header "Authorization: token ${GH_TOKEN}" \
-          --header "Accept: application/vnd.github.v3.raw" \
-          https://api.github.com/repos/codecov/standards/contents/upstream.sh
-          bash upstream.sh
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
