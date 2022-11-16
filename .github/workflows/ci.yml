@@ -29,12 +29,14 @@ jobs:
           g++ -std=c++11 -o TestBinary -fprofile-arcs -ftest-coverage test/test_index.cpp
           ./TestBinary
           gcov -o . test/test_index.cpp
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov
-          python request.py
+      - name: Run tests and collect coverage
+        run: pwd
+      - name: Run tests and collect coverage
+        run: ls -la
       - name: Coveralls Finished
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+          gcov-options: '\-lp'
+          
